@@ -62,13 +62,40 @@ chmod 0777 xze
 ./xze Manjaro-ARM-xfce-vim1-20.08.img -9 --meta LABEL=Manjaro BOARD=VIM1 LINK=manjaro.org DESC="FREE OPERATING SYSTEM FOR EVERYONE"
 
 ```
-## HOW TO check xz krescue image
+## HOW TO check xz krescue image example
 
 
 ```
 ./xze Manjaro-ARM-xfce-vim1-20.08.img.xz && echo ok
+```
 
 ```
+./xze VIM1.Manjaro-ARM-xfce-20.08.sd.mmc.img.xz && echo OK
+Strms  Blocks   Compressed Uncompressed  Ratio  Check   Filename
+    2      53    856.0 MiB  4,615.0 MiB  0.185  CRC64   VIM1.Manjaro-ARM-xfce-20.08.sd.mmc.img.xz
+[i] blocks: 53 // 856.0*MiB // 4,615.0*MiB
+##META_FILE##
+FILE: Manjaro-ARM-xfce-vim1-20.08.img.xz
+UNPACKED_SIZE: 4839181469
+PACKED_SIZE: 897560576
+FILE_SIZE: 897564672
+##META-FILE##
+
+##KRESCUE_META##
+type:xz
+label: Manjaro
+match: BOARD=VIM1
+link: manjaro.org
+desc: FREE OPERATING SYSTEM FOR EVERYONE
+duration: 60
+builder: universe
+date: Fri 21 Aug 2020 01:06:11 PM UTC
+image: VIM1.Manjaro-ARM-xfce-20.08.sd.mmc.img
+##KRESCUE-META##
+##KRESCUE##END
+OK
+```
+
 ## XZ image fast decomression
 
 provided by krescue out of box and same by `pixz`
