@@ -17,6 +17,9 @@ XZ format its simplest and easiest way if u need make image just for special boa
 + os logo splash - stored on first partition 
   at root / folder as splash.bmp
   its just simple raw or gzipped bmp file       - OPTIONAL
++ LABEL tag file - stored on first partition 
+  at root / folder as LABEL
+  its just simple plain text contain os name    - OPTIONAL
 + use one universal uboot images as bootloader  - OPTIONAL
   https://dl.khadas.com/Firmware/uboot/mainline/README.txt
 + post write auto resizable image               - OPTIONAL
