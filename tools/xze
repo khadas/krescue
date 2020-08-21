@@ -4,6 +4,10 @@
 
 #= xze - advanced xz + suitable for mt decompression & padding & meta
 
+# ##################
+# ###################
+# ###################
+
 USAGE() { echo '
     xze - advanced xz packer (suitable for mt decompression + padding + meta)
 
@@ -258,7 +262,7 @@ META(){
 	S1=$($pixz -dc < "$OUT" | wc --bytes)
     }
     echo "##META_FILE##"
-    echo "FILE: $OUT"
+    echo "FILE: $(basename "$OUT")"
     echo "UNPACKED_SIZE: $S1"
     echo "PACKED_SIZE: $S2"
     echo "FILE_SIZE: $((S2+BS))"
