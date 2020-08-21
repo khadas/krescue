@@ -35,9 +35,9 @@ META USAGE
 	match=BOARD=Edge \
 	link=http://dev.kubsu.ru/images/ \
 	duration=60 \
-	desc="FreeBSD 13.0 for Khadas EDGE board aarch64...."
+	desc="FreeBSD 13.0 for Khadas EDGE board aarch64...." \
 
-    ./xze Manjaro-ARM-xfce-vim1-20.08.img.xz -p --meta LABEL=manjaro BOARD=VIM1
+    ./xze Manjaro-ARM-xfce-vim1-20.08.img.xz -p -MM LABEL=manjaro BOARD=VIM1
 
 # CHECK META
 
@@ -323,7 +323,7 @@ META(){
     [ "$ADD_duration" ] || echo "duration: 60" >> $meta
     [ "$ADD_builder" ] || echo "builder: $(uname -n)" >> $meta
     [ "$ADD_date" ] || echo "date: $(TZ= date)" >> $meta
-    [ "$ADD_image" ] || echo "image: ${OUT%.*}" >> $meta
+    [ "$ADD_image" ] || echo "image: $(basename ${OUT%.*})" >> $meta
 
     for m in $META_POST  ; do
 	echo "$m" >> $meta
@@ -334,13 +334,14 @@ META(){
 #    PAD $meta " "
     }
 
-    $xz $meta
-    PAD $meta.xz
-    cat $meta.xz >> "$OUT"
+    $xz $meta || exit 1
+    PAD $meta.xz || exit 2
+    cat $meta.xz >> "$OUT" || exit 3
     rm $meta.xz
 
     CLEAN
-
+#   echo "[i] DONE">&2
+    exit 0
 }
 
 
@@ -467,4 +468,9 @@ XZS=$($xz -l "$OUT")
 echo "[i] XZ info
 $XZS">&2
 
-[ "$META" ] && META "$@"
+[ "$META" ] && {
+META "$@"
+exit 
+}
+
+exit 0
