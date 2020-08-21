@@ -90,9 +90,9 @@ pixz -dc < *.img.xz | sudo dd of=/dev/sdX
 just upload image to public storage https://dl.khadas.com/Firmware/Krescue/images/
 or make redirect link to other trusted location
 
-## XZ images local usage 
+## XZ images local usage with Krescue
 
-direct write from host machine to emmc sbc by network
+fast direct write from host machine to emmc sbc by network
 
 linux USB connection - just start krescue on your sbc with usb otg connection
 
