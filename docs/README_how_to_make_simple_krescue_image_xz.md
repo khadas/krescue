@@ -50,7 +50,8 @@ xze - just a shell script wrapper for xz which generate same
 xz standart - same suitable for normal xz decompress usage
 and for krescue online installation
 
-+ https://raw.githubusercontent.com/krescue/krescue/master/tools/xze
++ https://raw.githubusercontent.com/krescue/krescue/master/tools/xze - download link
++ https://github.com/krescue/krescue/blob/master/tools/xze - source page
 
 ## HOW TO make xz krescue image EXAMPLE
 
