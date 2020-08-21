@@ -34,10 +34,13 @@ XZ format its simplest and easiest way if u need make image just for special boa
 + BOARD - VIM1 | VIM2 | VIM3 | VIM3L | Edge
 + Label - os name ( examples: Ubuntu | Manjaro | FreeBSD | OpenWRT | ... )
 + name  - more detailed name
-+ type  - sd.emmc | sd | emmc
++ type  - sd.emmc | sd | emmc | sd.emmc.usb
 
 ## Krescue image name examples
 
++ VIM1.Manjaro.ARM-xfce-20.08.sd.mmc.img.xz
++ Edge.FreeBSD.aarch64-13.0-CURRENT-20200620.img.xz
++ Edge.Ubuntu.server-focal_Linux-5.7_arm64_V0.9.1-20200602.sd.mmc.usb.img.xz
 
 both of them easy to make via XZE script
 
