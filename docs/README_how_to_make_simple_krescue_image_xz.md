@@ -64,6 +64,13 @@ chmod 0777 xze
 ```
 ## HOW TO check xz krescue image example
 
+easy common way to check XZ krescue-images example
+
+```
+tail -c4096 VIM1.Manjaro-ARM-xfce-20.08.sd.mmc.img.xz | xz -dc && echo OK
+```
+
+same via `xze` script
 
 ```
 ./xze Manjaro-ARM-xfce-vim1-20.08.img.xz && echo ok
