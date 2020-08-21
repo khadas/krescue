@@ -17,9 +17,9 @@ USAGE
     -c | -C - ready for krescue check
     --help - full help
 
-    -mn - remove meta
-    -p  - add padding
-    -MM - krescue meta
+    -mn          - remove meta
+    -p           - add padding
+    -MM | --meta - krescue meta
 
 META USAGE
 
@@ -28,7 +28,7 @@ META USAGE
 
     IN=FreeBSD-aarch64-13.0-Khadas-EDGE-V-361468M-20200528.img
     ./xze "$IN" \
-	-MM \
+	--meta \
 	label=FreeBSD \
 	builder=Serega \
 	date="$(TZ= date)" \
@@ -121,7 +121,7 @@ for a in $@; do
 	META=2
 	break
 	;;
-	-MM)
+	-MM|--meta)
 	META=2
 	META_LOW_CASE=1
 	META_PRE="##KRESCUE_META## type:xz "
