@@ -1,34 +1,40 @@
-# How-to make simple krescue image xz format
+# HOW TO make .xz krescue images
 
-Krescue can accept two types of installation image
+Krescue can accept two types of installation images.
 
-+ first way is simple raw image compressed by xz/gz/zst/..
-+ another one is advanced kresq container
++ raw images compressed with xz/gz/zst/..
++ advanced .kresq container
 
-XZ format its simplest and easiest way if u need make image just for special board
+# WHY .xz file-format for krescue
+
+The .xz format is the most efficient modern compression algorithm in existence, producing the smallest possible compressed file-sizes. 
+
+However in the case of an SBC with limited CPU power, krescue requires the developer to prepare their .xz images for multi-threaded decompression.
+
+.xz images are interoperable with third party decompression tools, retaining our commitment to the open source effort.
 
 ## Basic image requirement
 
-+ image must works same from EMMC and SD        - REQUIRED
++ image must be bootable from EMMC and SD       - REQUIRED
 + free image spaces must zeroed	                - OPTIONAL
-+ image size must me minimal and optimal        - OPTIONAL
-+ must provide next bootup for other systems by
-  this sequence USB -> SD -> EMMC               - OPTIONAL
++ image size must be minimal and optimal        - OPTIONAL
++ must provide boot-order for other systems
+  in this sequence USB -> SD -> EMMC            - OPTIONAL
 + os logo splash - stored on first partition 
-  at root / folder as splash.bmp
-  its just simple raw or gzipped bmp file       - OPTIONAL
+  in root / folder as splash.bmp
+  a simple raw or gzipped bmp file will do      - OPTIONAL
 + LABEL tag file - stored on first partition 
-  at root / folder as LABEL
-  its just simple plain text contain os name    - OPTIONAL
-+ use one universal uboot images as bootloader  - OPTIONAL
+  in root / folder as LABEL
+  a simple .txt file containing the os name     - OPTIONAL
++ use one universal uboot image as bootloader   - OPTIONAL
   https://dl.khadas.com/Firmware/uboot/mainline/README.txt
-+ post write auto resizable image               - OPTIONAL
++ post-write auto resizable image               - OPTIONAL
 
-## Krescue image requirement for XZ image type
+## Krescue image requirement for .xz image type
 
-+ must have meta description	about
-  board name , os name, basic description, etc. - REQUIRED
-+ suitable for mt decompression                 - REQUIRED
++ must have meta description about the
+  board name, os name, basic description, etc.  - REQUIRED
++ suitable for multi-threaded decompression     - REQUIRED
 
 ## Krescue image name requirement
 
@@ -45,18 +51,16 @@ XZ format its simplest and easiest way if u need make image just for special boa
 + Edge.FreeBSD.aarch64-13.0-CURRENT-20200620.sd.mmc.img.xz
 + Edge.Ubuntu.server-focal_Linux-5.7_arm64_V0.9.1-20200602.sd.mmc.usb.img.xz
 
-both of them easy to make via XZE script
+All of them are easy to make via the `xze` script.
 
-## XZE - advanced xz suitable for mt decompression padding and meta
+## xze - advanced script for .xz compression, with krescue-padding and meta-description
 
-xze - just a shell script wrapper for xz which generate same
-xz standart - same suitable for normal xz decompress usage
-and for krescue online installation
+`xze` - shell script wrapper for generating .xz images for multi-threaded decompression using the xz-standard.
 
-+ https://raw.githubusercontent.com/krescue/krescue/master/tools/xze - download link
-+ https://github.com/krescue/krescue/blob/master/tools/xze - source page
++ https://raw.githubusercontent.com/krescue/krescue/master/tools/xze - script download link
++ https://github.com/krescue/krescue/blob/master/tools/xze - github source page
 
-## HOW TO make xz krescue image EXAMPLE
+## HOW TO make .xz krescue images (example)
 
 ```
 wget https://raw.githubusercontent.com/krescue/krescue/master/tools/xze
@@ -65,18 +69,19 @@ chmod 0777 xze
 ./xze Manjaro-ARM-xfce-vim1-20.08.img -9 --meta LABEL=Manjaro BOARD=VIM1 LINK=manjaro.org DESC="FREE OPERATING SYSTEM FOR EVERYONE"
 
 ```
-## HOW TO check xz krescue image example
+## HOW TO verify .xz krescue images (example)
 
-easy common way to check XZ krescue-images example
+Last 4kb (4096 bytes) block must contain meta-information about the correct image-size:
 
 ```
 tail -c4096 VIM1.Manjaro-ARM-xfce-20.08.sd.mmc.img.xz | xz -dc && echo OK
 ```
 
-same via `xze` script
+Same process carried out via `xze` script:
 
 ```
 ./xze Manjaro-ARM-xfce-vim1-20.08.img.xz && echo ok
+
 ```
 
 ```
@@ -92,7 +97,7 @@ FILE_SIZE: 897564672
 ##META-FILE##
 
 ##KRESCUE_META##
-type:xz
+type: xz
 label: Manjaro
 match: BOARD=VIM1
 link: manjaro.org
@@ -106,41 +111,40 @@ image: VIM1.Manjaro-ARM-xfce-20.08.sd.mmc.img
 OK
 ```
 
-## XZ image fast decomression
+## .xz image fast decompression
 
-provided by krescue out of box and same by `pixz`
+Included in krescue via `pixz`.
 
-pixz decompress example
+`pixz`  decompression example:
 
 ```
 pixz -dc < *.img.xz > uncompressed.img
 ```
 
-pixz decompress and write example to block device
+`pixz` decompression and writing to a block device
 
 ```
 pixz -dc < *.img.xz | sudo dd of=/dev/sdX
 ```
 
-## XZ images Krescue online usage
+## .xz image Krescue online usage
 
-just upload image to public storage https://dl.khadas.com/Firmware/Krescue/images/
-or make redirect link to other trusted location
+Just upload image to public storage https://dl.khadas.com/Firmware/Krescue/images/ or make a re-direct link to another trusted location.
 
-## XZ images local usage with Krescue
+## .xz image network write with Krescue
 
-fast direct write from host machine to emmc sbc by network
+Directly write compressed .xz images from your host machine to SBC's EMMC via network:
 
-linux USB connection - just start krescue on your sbc with usb otg connection
+1) USB-LAN connection - start Krescue on your SBC, and connect it to your PC via the USB-C port.
 
 ```
 curl -L 172.22.1.1/shell/write | sh -s - *.img.xz
 ```
 
-ethernet network connection - your sbc device and host machine must stay in same local network
+2) Ethernet network connection - your SBC device and host machine must stay on the same local network.
 
 ```
 curl -L krescue.lan/shell/write | sh -s - *.img.xz
 ```
 
-simple copy image to dump krescue disk partition
+3) Copy image to Krescue's "dumps" sd-card partition.
