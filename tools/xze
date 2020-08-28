@@ -4,10 +4,6 @@
 
 #= xze - advanced xz + suitable for mt decompression & padding & meta
 
-# ##################
-# ###################
-# ###################
-
 USAGE() { echo '
     xze - advanced xz packer (suitable for mt decompression + padding + meta)
 
@@ -15,20 +11,24 @@ USAGE
 
     xze [ARGS] FILE
 
+    -3 fast compression
+    -9 max slow compression
+
     -T#thread
     -B#blocksize in M
     -f - rewrite output file
     -c | -C - ready for krescue check
-    --help - full help
 
-    -mn          - remove meta
+    -MM | --meta         - krescue meta
+    -mn | --mote-remove  - remove meta
+
     -p           - add padding
-    -MM | --meta - krescue meta
+    --help - full help
 
 META USAGE
 
     ./xze rootfs_stage.sh -M INFO="any strings" var=VAR
-'; [ "$1" ] && echo 'META USAGE EXAMPLE (Krescue images)
+'; [ "$1" ] && echo '# META USAGE EXAMPLE (Krescue images)
 
     IN=FreeBSD-aarch64-13.0-Khadas-EDGE-V-361468M-20200528.img
     ./xze "$IN" \
@@ -40,6 +40,8 @@ META USAGE
 	link=http://dev.kubsu.ru/images/ \
 	duration=60 \
 	desc="FreeBSD 13.0 for Khadas EDGE board aarch64...." \
+
+# META minimal 
 
     ./xze Manjaro-ARM-xfce-vim1-20.08.img.xz -p -MM LABEL=manjaro BOARD=VIM1
 
@@ -99,19 +101,27 @@ $xz --help | grep -q threads= || {
 IN=
 #OPTS="-F xz --arm --lzma2"
 OPTS="-F xz -9e"
-OPTS="-F xz"
+OPTS="-F xz --verbose"
 
 BS=4096 # block size
 
 [ $# = 0 ] && USAGE
 
-T=4      # threads
+T=4        # threads
+#T=0       # threads
+T=$(nproc)
+
+
+#T=8      # threads
 B=90     # in MEGS
 
 META=
 FORCE=
 KRESCUE_CHK_END=
 KRESCUE_CHK_MT=
+SHOW_PROGRESS=1
+
+
 
 for a in $@; do
 #    echo "++ $a"
@@ -132,7 +142,7 @@ for a in $@; do
 	META_POST="##KRESCUE-META## ##KRESCUE##END"
 	break
 	;;
-	-mn)
+	-mn|--remove-meta)
 	META_REMOVE=1
 	;;
 	-p)
@@ -176,6 +186,11 @@ for a in $@; do
     esac
 done
 
+
+[ "$T" = 0 ] && T=$(nproc)
+[ "$T" = "" ] && T=4
+[ "$T" -gt 7 ] && T=8	# 8 cores can get too much memory
+
 meta="/tmp/xze.meta.$$"
 
 case $(uname -o) in
@@ -194,6 +209,7 @@ for s_ in $(stat -L -c%s "$1");do
     break
 done
 echo $s_
+#echo "fsize $1 = $s_">&2
 }
     ;;
 
@@ -381,10 +397,10 @@ META(){
 	i=$((i+1))
     done
 
-    echo "[i] blocks: $blocks // $cmp1*$cmp2 // $unc1*$unc2"
+    echo "[i] blocks: $blocks // $cmp1*$cmp2 // $unc1*$unc2">&2
 
     [ "$blocks" -lt 2 ] && {
-	echo "[w] its not mt xz"
+	echo "[w] its not mt xz">&2
 	#[ "$KRESCUE_CHK_END" ] || FAIL not ready for krescue mt usage
     }
 
@@ -413,7 +429,7 @@ META(){
     }
 
     [ "$META_REMOVE" ] && {
-	echo "[i] remove meta"
+	echo "[i] remove meta">&2
 	truncate -s-4096 "$CIN"
 	exit
     }
@@ -442,26 +458,52 @@ META(){
 
 [ "$IN" ] || FAIL input file not exist/defined
 
-OUT="$IN.xz"
+[ "$OUT" ] || {
+    OUT2="$(readlink /proc/$$/fd/1)"
 
-[ -e "$OUT" ] && {
+case $OUT2 in
+    "")
+    OUT="$IN.xz"
+    ;;
+    /dev/pts*)
+    OUT="$IN.xz"
+    ;;
+    /dev/tty*)
+    OUT="$IN.xz"
+    ;;
+    *)
+#    *pipe:*)
+#    OUT=/dev/stdout
+    OUT="$OUT2"
+    ;;
+esac
+
+}
+
+[ -s "$OUT" ] && {
     echo "[w] $OUT exist already">&2
     [ "$FORCE" ] || FAIL plz use -f for rewrite it
 }
 
 S1=$(fsize "$IN")
 
+
+S14=$((S1/8))
+
+[ "$T" -gt 0 ] && \
 S14=$((S1/T))
+
 [ $S14 -lt $B ] && B=$S14
 
 B="${B}M"
 
-ARGS="$xz -T$T --block-size $B -k -c $OPTS "$IN""
+ARGS="$xz -T$T --block-size $B -k -c $OPTS"
 
 echo "[i] xze compress $IN ($S1 bytes) > $OUT">&2
 echo "# $ARGS ">&2
 
-$ARGS > "$OUT"
+$ARGS "$IN" > "$OUT" || FAIL xz failed
+
 
 S=
 S2=

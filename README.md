@@ -19,8 +19,13 @@ VIM1 VIM2 VIM3 VIM3L / Edge ( amlogic / rockchips )
 
 ## Building status
 
+<!--
 + khadas-rescue-sdk		[![khadas-rescue-sdk](https://travis-ci.org/krescue/khadas-rescue-sdk.svg?branch=master)](https://travis-ci.org/krescue/khadas-rescue-sdk)
 + khadas-rescue-rootfs		[![khadas-rescue-rootfs](https://travis-ci.org/krescue/khadas-rescue-rootfs.svg?branch=master)](https://travis-ci.org/krescue/khadas-rescue-rootfs)
+-->
+
++ khadas-rescue-sdk             [![Khadas-rescue-sdk](https://github.com/krescue/khadas-rescue-sdk/workflows/Build/badge.svg)](https://github.com/krescue/khadas-rescue-sdk/actions)
++ khadas-rescue-rootfs          [![Khadas-rescue-rootfs](https://github.com/krescue/khadas-rescue-rootfs/workflows/Build/badge.svg)](https://github.com/krescue/khadas-rescue-rootfs/actions)
 + khadas-openwrt-feed-extra	[![khadas-openwrt-feed-extra](https://travis-ci.org/krescue/khadas-openwrt-feed-extra.svg?branch=master)](https://travis-ci.org/krescue/khadas-openwrt-feed-extra)
 + khadas-openwrt-sdk		[![khadas-openwrt-sdk](https://travis-ci.org/krescue/khadas-openwrt-sdk.svg?branch=master)](https://travis-ci.org/krescue/khadas-openwrt-sdk)
 + khadas-linux-kernel		[![khadas-linux-kernel](https://travis-ci.org/krescue/khadas-linux-kernel.svg?branch=master)](https://travis-ci.org/krescue/khadas-linux-kernel)
