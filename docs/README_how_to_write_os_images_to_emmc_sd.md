@@ -22,7 +22,7 @@ we have many ways write kresq/xz/gz/zst/raw images to emmc or sd
 
 ## Raw image write example
 
-    curl vimu/shell/write | sh -s - VIM3_Ubuntu-server-focal_Linux-5.9-rc2_arm64_SD-USB_V0.9.3-200827.img
+    curl krescue.lan/shell/write | sh -s - VIM3_Ubuntu-server-focal_Linux-5.9-rc2_arm64_SD-USB_V0.9.3-200827.img
 
 NOTE: raw images automaticly compress on then fly and transefer by network to sbc already compressed
 with next decomression and writing on sbc side
