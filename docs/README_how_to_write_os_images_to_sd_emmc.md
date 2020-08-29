@@ -8,7 +8,7 @@ we have many ways write xz/gz/zst/raw images to sd
 
     curl krescue.lan/shell/write | sh -s - -sd VIM3L.krescue.sd.img.gz
 
-same as via usb desvice
+same as via usb device
 
     gzip -dc VIM3L.krescue.sd.img.gz | sudo dd of=/dev/sdX bs=1M
 
