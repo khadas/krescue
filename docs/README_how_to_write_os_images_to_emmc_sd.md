@@ -1,6 +1,6 @@
-# HOW TO write os images to emmc
+# HOW TO write os images to emmc or sd
 
-we have many ways write kresq/xz/gz/zst/raw images to emmc
+we have many ways write kresq/xz/gz/zst/raw images to emmc or sd
 
 ## linux shell + write from host machine to sbc
 
@@ -16,6 +16,28 @@ we have many ways write kresq/xz/gz/zst/raw images to emmc
 
     curl krescue.lan/shell/write | sh -s - VIMx*.img
 
+## SYNTAX
+
+    curl krescue.lan/shell/write | sh -s - IMAGE_FILE [-sd|-mmc] [/dev/...]
+
+## Raw image write example
+
+    curl vimu/shell/write | sh -s - VIM3_Ubuntu-server-focal_Linux-5.9-rc2_arm64_SD-USB_V0.9.3-200827.img
+
+NOTE: raw images automaticly compress on then fly and transefer by network to sbc already compressed
+with next decomression and writing on sbc side
+
+NOTE: `zstd` need to be installed
+
+### write .gz image to sd via ethernet connection
+
+    curl krescue.lan/shell/write | sh -s - -sd VIM3L.krescue.sd.img.gz
+
+same as via usb device
+
+    gzip -dc VIM3L.krescue.sd.img.gz | sudo dd of=/dev/sdX bs=1M
+
+where /dev/sdX - is sd disk
 
 ### OUTPUT LOGS EXAMPLES
 
