@@ -1,0 +1,407 @@
+#!/bin/sh
+
+## hyphop ##
+
+#= linux user space kbi like kbi uboot
+
+# https://dl.khadas.com/Hardware/VIM3/MCU/VIM3_MCU_REG_EN.pdf
+
+# plz check full kbi source
+ 
+#define CHIP_ADDR               0x18
+#define REG_BOOT_MODE           0x20
+#define BOOT_MODE_SPI           0
+#define BOOT_MODE_EMMC          1
+#define REG_PORT_MODE           0x33
+#define REG_POWER_OFF           0x80
+#define REG_POWER_STATE         0x86
+#define REG_BOOT_EN_WOL         0x21
+
+#define REG_BOOT_MODE           0x20
+#define REG_BOOT_EN_WOL         0x21
+#define REG_BOOT_EN_RTC         0x22
+#define REG_BOOT_EN_IR          0x24
+#define REG_BOOT_EN_DCIN        0x25
+#define REG_BOOT_EN_KEY         0x26
+#define REG_BOOT_EN_GPIO        0x23
+
+#define REG_SHUTDOWN_NORMAL     0x2c
+
+REG_BOOT_EN_WOL=0x21
+REG_BOOT_EN_RTC=0x22
+REG_BOOT_EN_IR=0x24
+REG_BOOT_EN_DCIN=0x25
+
+CHIP_ADDR=0x18
+REG_BOOT_MODE=0x20
+REG_PORT_MODE=0x33
+
+REG_BOOT_EN_WOL=0x21
+PORT_MODE_USB=0x00
+PORT_MODE_PCI=0x01
+
+BOOT_MODE_SPI=0x00
+BOOT_MODE_EMMC=0x01
+BOOT_MODE_MMC=$BOOT_MODE_EMMC
+
+REG_POWER_OFF=0x80
+REG_POWER_STATE=0x86
+
+REG_SHUTDOWN_NORMAL=0x2c
+
+#i2cset -f -y $BUS 0x18 0x80 0x1
+
+
+USAGE(){ echo "kbi (bootmode | power_off)
+
+ABOUT
+
+    user space kbi like kbi uboot cmd  https://docs.khadas.com/
+
+USAGE
+
+    kbi bootmode [mmc|sd|spi|toggle|get|help] [save]
+    kbi portmode [usb|pci|toggle|get|help] [save]
+    kbi [ir|rtc|dcin|wol] [0|1|-]
+    kbi reset
+    kbi show
+
+ALIASES
+
+    bootmode - kbi bootmode
+    portmode - kbi portmode
+    power_off - kbi power_off
+
+NOTE add save for activation new value via power_off
+
+"; }
+
+CMD(){
+    echo "[#] $@">&2
+    $@ 
+}
+
+for need in i2cget i2cset ; do
+which $need 1>/dev/null 2>&1 || {
+    echo "[i] need to install i2c-tools!">&2
+    exit 1
+}
+done
+
+# try to find chip
+BUS=
+for b in /dev/i2c-?; do
+    [ -c $b ] && {
+        B=${b#*-}
+	i2cget -y $B $CHIP_ADDR 1>/dev/null 2>/dev/null && {
+	    BUS=$B
+	    break
+	}
+    }
+done
+
+
+[ "$BUS" ] || {
+    echo "[e] not found i2c chips" >&2
+    [ "$(board_name 2>/dev/null)" = "VIM1" ] && {
+	echo "[i] VIM1 old ver not support KBI">&2
+    }
+    echo UNDEF
+    exit 1
+}
+
+
+
+bootmode_get(){
+
+BOOT_MODE=$(i2cget -y $BUS $CHIP_ADDR $REG_BOOT_MODE b)
+
+#echo "[i] boot_mode is $BOOT_MODE">&2
+
+case $BOOT_MODE in
+    $BOOT_MODE_SPI)
+    echo "spi"
+    ;;
+    $BOOT_MODE_EMMC)
+    echo "mmc"
+    ;;
+    *)
+    echo "UNDEF"
+    ;;
+esac
+
+}
+
+
+portmode_get(){
+
+PORT_MODE=$(i2cget -y $BUS $CHIP_ADDR $REG_PORT_MODE b)
+
+#echo "[i] port_mode is $PORT_MODE">&2
+
+case $PORT_MODE in
+    $PORT_MODE_USB)
+    echo "usb"
+    ;;
+    $PORT_MODE_PCI)
+    echo "pcie"
+    ;;
+esac
+
+}
+
+power_off_now(){
+    i2cset \
+    -y $BUS $CHIP_ADDR $REG_POWER_OFF 1 b
+}
+
+bootmode_set(){
+#    CMD \
+    i2cset \
+    -y $BUS $CHIP_ADDR $REG_BOOT_MODE $1 b
+}
+
+portmode_set(){
+#    CMD \
+    i2cset \
+    -y $BUS $CHIP_ADDR $REG_PORT_MODE $1 b
+}
+
+wol_set(){
+#    CMD \
+    i2cset \
+    -y $BUS $CHIP_ADDR $REG_BOOT_EN_WOL $1 b
+}
+
+_get(){
+    r=$(i2cget -y $BUS $CHIP_ADDR $1 b)
+    off=$2
+    [ "$off" ] || off=off
+    on=$3
+    [ "$on" ] || on=on
+
+    case $r in
+    0x00)
+    echo $off
+    ;;
+    0x01)
+    echo $on
+    ;;
+    *)
+    echo "$r"
+    ;;
+    esac
+}
+
+_set(){
+#   echo "_set $1 := $2">&2
+    v=$2
+    [ "$v" ] || return
+    #echo i2cset -y $BUS $CHIP_ADDR $1 $v b
+    $(i2cset -y $BUS $CHIP_ADDR $1 $v b)
+}
+#i2cget -y 0 0x18 0x24 b
+#echo "i2cget -y $BUS $CHIP_ADDR $REG_BOOT_EN_WOL b">&2
+
+wol_get(){
+_get $REG_BOOT_EN_WOL
+}
+ir_get(){
+    _get $REG_BOOT_EN_IR
+}
+dcin_get(){
+    _get $REG_BOOT_EN_DCIN
+}
+rtc_get(){
+    _get $REG_BOOT_EN_RTC
+}
+
+wol_set(){
+    _set $REG_BOOT_EN_WOL $1
+}
+ir_set(){
+    _set $REG_BOOT_EN_IR $1
+}
+dcin_set(){
+    _set $REG_BOOT_EN_DCIN $1
+}
+rtc_set(){
+    _set $REG_BOOT_EN_RTC $1
+}
+
+_act(){
+    r=
+    case $1 in
+	ir)   r=$REG_BOOT_EN_IR;;
+	rtc)  r=$REG_BOOT_EN_RTC;;
+	wol)  r=$REG_BOOT_EN_WOL;;
+	dcin) r=$REG_BOOT_EN_DCIN;;
+	shutdown) r=$REG_SHUTDOWN_NORMAL;;
+	*) return;;
+    esac
+    v=
+    case $2 in
+	0|off|disable|false) v=0;;
+	1|on|enable|true)    v=1;;
+	-|toggle)
+	v=$(_get $r)
+	case $v in
+	    on)echo off;v=0;;
+	    off)echo on;v=1;;
+	esac
+	;;
+	*)
+	;;
+    esac
+    
+#4    echo "ACT $1 : $2 >> $r:: $v">&2
+
+    [ "$v" ] || {
+	_get $r
+	return
+    }
+
+    _set $r $v
+
+}
+
+PORTMODE(){
+#echo "[i] BOOTMODE $@">&2
+
+active=$(portmode_get)
+
+for i in "$@" ; do
+case "$i" in
+    p*|P*|1)
+    echo "[i] $0 $active -> pcie">&2
+    portmode_set $PORT_MODE_PCI
+    ;;
+    u*|U*|0)
+    echo "[i] $0 $active -> usb">&2
+    portmode_set $PORT_MODE_USB
+    ;;
+
+    t*)
+    to="pcie"
+    ton=$PORT_MODE_PCI
+    [ "$active" = "pcie" ] && {
+    to="usb"
+    ton=$PORT_MODE_USB
+    }
+    echo "[i] $0 toogle $active -> $to">&2
+    portmode_set $ton
+    ;;
+    save|store|*off)
+    echo "[i] power off">&2
+#   poweroff
+    sleep 1
+    power_off_now
+    ;;
+    get|status|r|read|active)
+    echo "$active"
+    ;;
+    *)
+    USAGE
+    exit 0
+    ;;
+esac
+done
+
+[ "$1" ] || echo "$active"
+
+}
+
+BOOTMODE(){
+
+    active=$(bootmode_get)
+#    echo "[i] BOOTMODE $@">&2
+
+for i in "$@" ; do
+case "$i" in
+    *mc|sd|SD|1)
+    echo "[i] $0 $active -> mmc(sd)">&2
+    bootmode_set $BOOT_MODE_MMC
+    ;;
+    sp*|SP*|0)
+    echo "[i] $0 $active -> spi">&2
+    bootmode_set $BOOT_MODE_SPI
+    ;;
+
+    t*)
+    to="mmc"
+    ton=$BOOT_MODE_MMC
+    [ "$active" = "mmc" ] && {
+    to="spi"
+    ton=$BOOT_MODE_SPI
+    }
+    echo "[i] $0 toogle $active -> $to">&2
+    bootmode_set $ton
+    ;;
+    save|store|*off)
+    echo "[i] power off">&2
+    sleep 1
+#   poweroff
+    power_off_now
+    ;;
+    get|status|r|read|active)
+    echo "$active"
+    ;;
+    *)
+    USAGE
+    exit 0
+    ;;
+esac
+done
+
+[ "$1" ] || echo "$active"
+
+}
+
+show_all(){
+    echo "
+ PORT_MODE: $(portmode_get)
+ BOOT_MODE: $(bootmode_get)
+        IR: $(ir_get)
+       WOL: $(wol_get)
+       RTC: $(rtc_get)
+      DCIN: $(dcin_get)"
+}
+
+ACTION=$0
+
+case $ACTION in
+    *kbi*)
+    ACTION=$1
+    shift
+    ;;
+esac
+
+#echo "[i] kbi $ACTION">&2
+
+case $ACTION in
+    ir|rtc|dcin|wol|shutdown)
+    _act $ACTION $1
+    ;;
+    reset)
+    _act shutdown 0
+    ;;
+    *boot*)
+    BOOTMODE $@
+    ;;
+    *port*)
+    PORTMODE $@
+    ;;
+    *off*)
+    echo "[i] power_off">&2
+    echo "[i] press power_on again for wakeup">&2
+    sleep 1
+    power_off_now
+    ;;
+    all|show)
+    show_all
+    ;;
+
+    *)
+    USAGE
+    ;;
+esac
