@@ -1,4 +1,4 @@
-# Krescue - tiny fast rescue / installation system for ARM SBCs
+# Krescue - tiny fast rescue / installation system for ARM SBCs [![Build Status](https://github.com/khadas/krescue/workflows/Build/badge.svg)](https://github.com/khadas/krescue/actions)
 
 universal rescue / installation system for ARM SBCs
 
@@ -19,6 +19,7 @@ VIM1 VIM2 VIM3 VIM3L / Edge ( amlogic / rockchips )
 
 ## Building status
 
++ [khadas openwrt sdk](https://github.com/khadas/khadas-openwrt-sdk) [![Build Status](https://github.com/khadas/khadas-openwrt-sdk/workflows/Build/badge.svg)](https://github.com/khadas/khadas-openwrt-sdk/actions)
 + khadas-rescue-sdk             [![Khadas-rescue-sdk](https://github.com/khadas/khadas-rescue-sdk/workflows/Build/badge.svg)](https://github.com/khadas/khadas-rescue-sdk/actions)
 + khadas-rescue-rootfs          [![Khadas-rescue-rootfs](https://github.com/khadas/khadas-rescue-rootfs/workflows/Build/badge.svg)](https://github.com/khadas/khadas-rescue-rootfs/actions)
 
