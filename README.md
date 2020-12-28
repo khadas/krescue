@@ -21,6 +21,7 @@ VIM1 VIM2 VIM3 VIM3L / Edge ( amlogic / rockchips )
 
 + [khadas openwrt sdk](https://github.com/khadas/khadas-openwrt-sdk) [![Build Status](https://github.com/khadas/khadas-openwrt-sdk/workflows/Build/badge.svg)](https://github.com/khadas/khadas-openwrt-sdk/actions)
 + [khadas openwrt feed extra](https://github.com/khadas/khadas-openwrt-feed-extra) [![Build Status](https://github.com/khadas/khadas-openwrt-feed-extra/workflows/Build/badge.svg)](https://github.com/khadas/khadas-openwrt-feed-extra/actions)
++ [khadas u-boot](https://github.com/khadas/khadas-uboot) [![Build Status](https://github.com/khadas/khadas-uboot/workflows/Build/badge.svg)](https://github.com/khadas/khadas-uboot/actions)
 + khadas-rescue-sdk             [![Khadas-rescue-sdk](https://github.com/khadas/khadas-rescue-sdk/workflows/Build/badge.svg)](https://github.com/khadas/khadas-rescue-sdk/actions)
 + khadas-rescue-rootfs          [![Khadas-rescue-rootfs](https://github.com/khadas/khadas-rescue-rootfs/workflows/Build/badge.svg)](https://github.com/khadas/khadas-rescue-rootfs/actions)
 
