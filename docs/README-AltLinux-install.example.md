@@ -85,5 +85,6 @@ ENJOY ;-)
 + https://dl.khadas.com/Firmware/Krescue/system/README-rescue-access.txt
 + https://altlinux.org
 + http://nightly.altlinux.org/sisyphus-aarch64/tested
++ https://github.com/khadas/krescue/blob/master/docs/README-AltLinux-install.example.md
 
 PS: next time i will write same instruction for ArchLinux and any other distro
