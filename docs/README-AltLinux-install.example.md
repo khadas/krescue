@@ -41,8 +41,8 @@ for a in system/lib/devicetree/*-alt1; do ln -s . $a/amlogic; ln -s . $a/rockchi
 cp system/boot/extlinux/extlinux.conf system/boot/extlinux/extlinux.conf.bak
 # sed -i s/console=tty1/earlyprintk/ system/boot/extlinux/extlinux.conf
 
-echo ttyAML0 >> /etc/securetty
-echo ttyFIQ0 >> /etc/securetty
+echo ttyAML0 >> system/etc/securetty
+echo ttyFIQ0 >> system/etc/securetty
 
 # install uboot to eMMC
 mmc_update_uboot online
