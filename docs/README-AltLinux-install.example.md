@@ -5,20 +5,20 @@
 + download sd/usb image https://dl.khadas.com/Firmware/Krescue/system/
 for your device and bootup Krescue
 
-## Preparation
+## Preparation notes
 
-NOTE: device must connected to internet via ethernet or wifi
-NOTE: ethernet will be auto connected if cable already was plugged
++ device must connected to internet via ethernet or wifi
++ ethernet will be auto connected if cable already was plugged
 
 ## WIFI configuration
 
-if u stay already in shell exec `krescue`
+if u stay already in shell exec `krescue` or `exit` to back into krescue menu
 
 + krescue main menu -> network -> wifi -> connect /select
 
-## goto Krescue shell
+## manual install Alt-Lihux into eMMC from shell
 
-manual install Alt-Lihux into eMMC from shell
++ krescue main menu -> shell
 
 ```
 # create partitions
