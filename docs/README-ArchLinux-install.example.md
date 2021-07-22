@@ -18,11 +18,11 @@ for your device and bootup Krescue
 
 ## WIFI configuration
 
-If you’re currently in a console / shell, just type krescue or exit to return to Krescue’s main menu
+If you’re currently in a console / shell, just type `krescue` or `exit` to return to Krescue’s main menu
 
 + krescue main menu -> network -> wifi -> connect /select
 
-## Install ArchLihux into eMMC from shell
+## Install ArchLinux into eMMC from shell
 
 Going into Krescue shell.
 
@@ -30,7 +30,7 @@ Going into Krescue shell.
 
 ### One-line shell script installation method
 
-Just copy paste next line into krescue shell
+Just copy-paste the line below into krescue shell
 
     curl -jkL https://raw.githubusercontent.com/khadas/krescue/master/scripts/ArchLinux-install.sh | sh -s -
 
@@ -93,7 +93,7 @@ spi_update_uboot online -k && echo need poweroff and poweron device again
 
 ## Install ArchLihux into eMMC via ssh
 
-Device with Krescue must be available by krescue.local hostname inside local net
+Your Krescue device will appear on your local network with the network name krescue.local
 
     wget https://raw.githubusercontent.com/khadas/krescue/master/scripts/ArchLinux-install.sh
     ssh root@krescue.local < ArchLinux-install.sh
@@ -103,7 +103,7 @@ Device with Krescue must be available by krescue.local hostname inside local net
     user: root
     password: root
 
-## Next customizations step
+## Additional Customisation
 
 Please check Arch wiki https://wiki.archlinux.org/title/Arch_Linux
 
