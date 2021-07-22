@@ -2,13 +2,25 @@
 
 ## hyphop ##
 
+#= ArchLinux-install
+
+## USAGE examples
+
+#  curl -jkL https://raw.githubusercontent.com/khadas/krescue/master/scripts/ArchLinux-install.sh | sh -s -
+#  or local usage
+#  ssh root@krescue.local < ArchLinux-install.sh
+
 set -e -o pipefail
 
 BOARD=$(tr -d '\0' < /sys/firmware/devicetree/base/model || echo Khadas)
 echo "ArchLinux install for $BOARD"
 
-# checks
+# checks 
+echo "check network connection..."
+ping -c1 -w2 1.1.1.1 || (echo plz check or setup network connection; exit 1)
+# stop prev session
 pkill -f downloader || true
+sleep 1
 grep $(mmc_disk) /proc/mounts && umount $(mmc_disk)p1
 
 # create partitions
@@ -16,7 +28,6 @@ echo "label: dos" | sfdisk $(mmc_disk)
 echo "part1 : start=16M," | sfdisk $(mmc_disk)
 
 # create rootfs
-# >/dev/null 2>&1
 mkfs.ext4 -L ROOT $(mmc_disk)p1 < /dev/null
 mkdir -p system && mount $(mmc_disk)p1 system
 
@@ -27,6 +38,7 @@ echo "download and extract $SRC"
 curl -A downloader -jkL $SRC | tar -xzf- -C system
 
 # setup extlinux config
+mkdir -p system/boot/extlinux/
 cat <<-END > system/boot/extlinux/extlinux.conf
 label ArchLinux
 kernel /boot/Image.gz
@@ -54,4 +66,4 @@ mmc_update_uboot online
 # optional to SPI
 spi_update_uboot online -k && poweroff # poweron
 
-echo DONE
+echo DONE plz reboot device
