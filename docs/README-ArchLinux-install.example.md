@@ -18,18 +18,19 @@ If you’re currently in a console / shell, just type krescue or exit to return 
 
 ## install Alt-Lihux into eMMC from shell
 
+Going into Krescue shell.
+
 + krescue main menu -> shell
 
-### oneline online shell script
+### oneline shell script
+
+Just copy paste next line.
 
     curl -jkL https://raw.githubusercontent.com/khadas/krescue/master/scripts/ArchLinux-install.sh | sh -s -
 
-### ssh variant
-
-    wget https://raw.githubusercontent.com/khadas/krescue/master/scripts/ArchLinux-install.sh
-    ssh root@krescue.local < ArchLinux-install.sh
-
 ### manual install variant example
+
+Step by step mode
 
 ```
 BOARD=$(tr -d '\0' < /sys/firmware/devicetree/base/model || echo Khadas)
@@ -83,6 +84,13 @@ spi_update_uboot online -k && echo need poweroff and poweron device again
 
 # DONE plz reboot device
 ```
+
+## install Alt-Lihux into eMMC via ssh
+
+Device with Krescue must be available by krescue.local hostname inside local net
+
+    wget https://raw.githubusercontent.com/khadas/krescue/master/scripts/ArchLinux-install.sh
+    ssh root@krescue.local < ArchLinux-install.sh
 
 ## user/root access
 

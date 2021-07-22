@@ -33,7 +33,7 @@ mkdir -p system && mount $(mmc_disk)p1 system
 
 # can chouse any other rootfs source
 SRC=http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
-SRC=http://router_:8081/img/ArchLinuxARM-aarch64-latest.tar.gz
+#SRC=http://router_:8081/img/ArchLinuxARM-aarch64-latest.tar.gz
 
 echo "download and extract $SRC"
 curl -A downloader -jkL $SRC | pigz -dc | tar -xf- -C system
