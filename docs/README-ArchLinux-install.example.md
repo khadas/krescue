@@ -119,3 +119,4 @@ ENJOY ;-)
 + https://dl.khadas.com/Firmware/Krescue/system/README-rescue-boot.txt
 + https://dl.khadas.com/Firmware/Krescue/system/README-rescue-access.txt
 + https://github.com/khadas/krescue/blob/master/docs/README-ArchLinux-install.example.md
++ https://raw.githubusercontent.com/khadas/krescue/master/scripts/ArchLinux-install.sh
