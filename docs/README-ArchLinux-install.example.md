@@ -64,7 +64,7 @@ END
 echo LABEL=ROOT / auto errors=remount-ro 1 1 >> system/etc/fstab
 
 # setup host name
-echo $BOARD > system/etc/hostname
+echo ${BOARD// /-} > system/etc/hostname
 
 # setup dhcp for ethernet
 echo dhcpcd eth0 -d > system/etc/rc.local
@@ -96,6 +96,10 @@ Device with Krescue must be available by krescue.local hostname inside local net
 
     user: root
     password: root
+
+## Next customizations step
+
+Please check Arch wiki https://wiki.archlinux.org/title/Arch_Linux
 
 ## Problems
 
