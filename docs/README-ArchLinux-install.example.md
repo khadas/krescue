@@ -16,7 +16,7 @@ If you’re currently in a console / shell, just type krescue or exit to return 
 
 + krescue main menu -> network -> wifi -> connect /select
 
-## Install Alt-Lihux into eMMC from shell
+## Install ArchLihux into eMMC from shell
 
 Going into Krescue shell.
 
@@ -85,7 +85,7 @@ spi_update_uboot online -k && echo need poweroff and poweron device again
 # DONE plz reboot device
 ```
 
-## Install Alt-Lihux into eMMC via ssh
+## Install ArchLihux into eMMC via ssh
 
 Device with Krescue must be available by krescue.local hostname inside local net
 
