@@ -2,7 +2,9 @@
 
 ## About ArchLinux and Arch Linux ARM
 
-Arch Linux ARM port of Arch Linux, which aims for simplicity and full control to the end user. We provide a light-weight base structure that allows you to shape the system to your needs.
+Arch Linux ARM port of Arch Linux, which aims for simplicity and full control to the end user.
+We provide a light-weight base structure that allows you to shape the system to your needs...
+https://archlinuxarm.org/
 
 ## Start Krescue from SD
 
