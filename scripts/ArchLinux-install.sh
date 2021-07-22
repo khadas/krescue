@@ -38,9 +38,9 @@ SRC=http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
 echo "download and extract $SRC"
 curl -A downloader -jkL $SRC | pigz -dc | tar -xf- -C system
 
-# setup extlinux config
+echo "setup extlinux config"
 mkdir -p system/boot/extlinux/
-cat <<-END > system/boot/extlinux/extlinux.conf
+cat <<-END | tee system/boot/extlinux/extlinux.conf
 label ArchLinux
 kernel /boot/Image.gz
 initrd /boot/initramfs-linux.img
@@ -52,7 +52,7 @@ END
 echo LABEL=ROOT / auto errors=remount-ro 1 1 >> system/etc/fstab
 
 # setup host name
-echo $BOARD > system/etc/hostname
+echo ${BOARD// /-} > system/etc/hostname
 
 # setup dhcp for ethernet
 echo dhcpcd eth0 -d > system/etc/rc.local
