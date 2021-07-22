@@ -45,7 +45,7 @@ label ArchLinux
 kernel /boot/Image.gz
 initrd /boot/initramfs-linux.img
 fdtdir /boot/dtbs
-append root=LABEL=ROOT
+append root=LABEL=ROOT rw quiet
 END
 
 # setup rootfs
