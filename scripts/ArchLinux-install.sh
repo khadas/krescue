@@ -13,7 +13,7 @@
 set -e -o pipefail
 
 BOARD=$(tr -d '\0' < /sys/firmware/devicetree/base/model || echo Khadas)
-echo "ArchLinux install for $BOARD"
+echo "ArchLinux installation for $BOARD ..."
 
 # checks 
 echo "check network connection..."
@@ -33,9 +33,10 @@ mkdir -p system && mount $(mmc_disk)p1 system
 
 # can chouse any other rootfs source
 SRC=http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz
+SRC=http://router_:8081/img/ArchLinuxARM-aarch64-latest.tar.gz
 
 echo "download and extract $SRC"
-curl -A downloader -jkL $SRC | tar -xzf- -C system
+curl -A downloader -jkL $SRC | pigz -dc | tar -xf- -C system
 
 # setup extlinux config
 mkdir -p system/boot/extlinux/
@@ -61,9 +62,18 @@ chmod 0777 system/etc/rc.local
 echo ttyAML0 >> system/etc/securetty
 echo ttyFIQ0 >> system/etc/securetty
 
-# install uboot to eMMC
-mmc_update_uboot online
-# optional to SPI
-spi_update_uboot online -k && poweroff # poweron
+umount system
 
-echo DONE plz reboot device
+echo "install uboot to eMMC"
+mmc_update_uboot online
+
+echo "optional install uboot to SPI flash"
+case $BOARD in
+*vim|*VIM) echo "skipped for $BOARD";;
+*)
+spi_update_uboot online -k && echo need poweroff and poweron device again
+esac
+
+# DONE
+echo "ArchLinux installation for $BOARD : DONE"
+echo "plz reboot device"
