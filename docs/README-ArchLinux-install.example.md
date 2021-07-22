@@ -1,5 +1,9 @@
 # HOW-TO install ArchLinux for any Khadas SBC
 
+## About ArchLinux and Arch Linux ARM
+
+Arch Linux ARM port of Arch Linux, which aims for simplicity and full control to the end user. We provide a light-weight base structure that allows you to shape the system to your needs.
+
 ## Start Krescue from SD
 
 + download appropriate Krescue sd/usb image  https://dl.khadas.com/Firmware/Krescue/system/
