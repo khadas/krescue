@@ -15,17 +15,17 @@ start Krescue from SD card
 
 ## Optimize emmc byte content
 
-Krescue => Advanced => eMMC storage => Optimize minimize eMMC content
+    Krescue => Advanced => eMMC storage => Optimize minimize eMMC content
 
 NOTE: tested with fenix ubuntu emmc system
 
 ## Make eMMC dump image
 
-Krescue => Image DUMP from EMMC
+    Krescue => Image DUMP from EMMC
 
 ## Make autoinstall sd card
 
-Krescue => Image WRITE to EMMC => Select image for install => More =>  autoinstall: .. this image => OK => Continue
+    Krescue => Image WRITE to EMMC => Select image for install => More =>  autoinstall: .. this image => OK => Continue
 
 Autoinstall sd image is ready
 
@@ -39,9 +39,9 @@ wait write process will be complited and eject sd card (device is ready)
 
 ### LED indication VIM3 / VIM3L
 
-solid white + blinked red  = writing
-solid write + disabled red = done and ready for reboot / eject sd card
-solid red = error
++ solid white + blinked red  = writing
++ solid write + disabled red = done and ready for reboot / eject sd card
++ solid red = error
 
 ## Autoinstall configure
 
