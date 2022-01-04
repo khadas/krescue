@@ -19,7 +19,7 @@ Install custom software and configure your system as required.
 
     Krescue => Advanced => eMMC storage => Optimize minimize eMMC content
 
-    NOTE: tested with Fenix Ubuntu system (eMMC version)
+NOTE: tested with Fenix Ubuntu system (eMMC version)
 
 ## 3.3 Dump Image from eMMC
 
@@ -29,19 +29,19 @@ Install custom software and configure your system as required.
 
     Krescue => Image WRITE to EMMC => Select image for install => More => autoinstall: .. this image => OK => Continue
 
-    Auto-Install SD card is ready.
+Auto-Install SD card is ready.
 
 ## 3.5 Auto-Install Your Custom Image
 
-    Just insert the Auto-Install SD card, then power-on your device, all processes will be completed automatically. After the writing is completed, simply eject the SD card and reboot your device.
+Just insert the Auto-Install SD card, then power-on your device, all processes will be completed automatically. After the writing is completed, simply eject the SD card and reboot your device.
 
-    NOTE: Pressing ESC (keyboard) or CONFIGURE within the first 5 seconds will interrupt the auto-installation process
+NOTE: Pressing ESC (keyboard) or CONFIGURE within the first 5 seconds will interrupt the auto-installation process
 
 ### 3.5.1 VIM3 / VIM3L LED Colours
 
-    + solid white + blinking red   =   writing
-    + solid write                  =   done and ready for reboot / eject sd card
-    + solid red                    =   error
++ solid white + blinking red   =   writing
++ solid write                  =   done and ready for reboot / eject sd card
++ solid red                    =   error
 
 ## 3.6 Configure Auto-Installation Process
 
@@ -89,6 +89,5 @@ Krescue => Advanced => Image autoinstall config
 
 ## 3.7 Optimization
 
-1) Create many Auto-Install SD cards and write to many boards at same time
-2) Optimize / prepare the dumped-image for quicker eMMC installation
-
++ Create many Auto-Install SD cards and write to many boards at same time
++ Optimize / prepare the dumped-image for quicker eMMC installation
