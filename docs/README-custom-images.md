@@ -1,6 +1,8 @@
 Create Custom images
 ====================
 
+NOTE: Krescue version from 220104_275
+
 # Write base image
 
 Write some system to eMMC via Amlogic burn software or Krescue or any other way.
