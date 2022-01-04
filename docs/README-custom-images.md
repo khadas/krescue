@@ -1,53 +1,51 @@
-Create Custom images
+How To Create Custom Images
 ====================
 
-NOTE: Krescue version from 220104_275
+NOTE: Krescue version 220104_275
 
-# Write base image
+# 1. Write Image to eMMC
 
-Write some system to eMMC via Amlogic burn software or Krescue or any other way.
+Write a system into the eMMC using the Amlogic Burning Software, Krescue, or any other preferred method.
 
-# Customization
+# 2. Customization
 
-Install custom software and configure system.
+Install custom software and configure your system as required.
 
-# Create installation image via Krescue
+# 3. Use Krescue to Create an Installation Image
 
-start Krescue from SD card
+## 3.1 Start Krescue from an SD card
 
-## Optimize emmc byte content
+## 3.2 Optimize eMMC byte content
 
     Krescue => Advanced => eMMC storage => Optimize minimize eMMC content
 
-NOTE: tested with fenix ubuntu emmc system
+    NOTE: tested with Fenix Ubuntu system (eMMC version)
 
-## Make eMMC dump image
+## 3.3 Dump Image from eMMC
 
     Krescue => Image DUMP from EMMC
 
-## Make autoinstall sd card
+## 3.4 Make Auto-Install SD Card
 
-    Krescue => Image WRITE to EMMC => Select image for install => More =>  autoinstall: .. this image => OK => Continue
+    Krescue => Image WRITE to EMMC => Select image for install => More => autoinstall: .. this image => OK => Continue
 
-Autoinstall sd image is ready
+    Auto-Install SD card is ready.
 
-## Autoinstallation process from prepeared card
+## 3.5 Auto-Install Your Custom Image
 
-Just plug SD card and power-on device, all process will be done automaticly
+    Just insert the Auto-Install SD card, then power-on your device, all processes will be completed automatically. After the writing is completed, simply eject the SD card and reboot your device.
 
-We can interrput autoinstall process during fist 5 sec by keyboard ESC or press CONFIGURE button
+    NOTE: Pressing ESC (keyboard) or CONFIGURE within the first 5 seconds will interrupt the auto-installation process
 
-wait write process will be complited and eject sd card (device is ready)
+### 3.5.1 VIM3 / VIM3L LED Colours
 
-### LED indication VIM3 / VIM3L
+    + solid white + blinking red   =   writing
+    + solid write                  =   done and ready for reboot / eject sd card
+    + solid red                    =   error
 
-+ solid white + blinked red  = writing
-+ solid write + disabled red = done and ready for reboot / eject sd card
-+ solid red = error
+## 3.6 Configure Auto-Installation Process
 
-## Autoinstall configure
-
-### Autoinstall check status and configure
+### 3.6.1 Configure the Auto-Installer
 
 Krescue => Advanced => Image autoinstall config
 
@@ -61,7 +59,7 @@ Krescue => Advanced => Image autoinstall config
     │   <Manual Edit >  < Deactivate >  <  Continue  >  <Select Image>       │
     └─────────────────────────────[F1 - help]────────────────────────────────┘
 
-#### Autoinstall deactivate
+#### 3.6.1.1 Deactivate Auto-Installer
 
     < Deactivate >
 
@@ -73,7 +71,7 @@ Krescue => Advanced => Image autoinstall config
     │   <Manual Edit >  <    Help    >  <  Continue  >  <Select Image>       │
     └─────────────────────────────[F1 - help]────────────────────────────────┘
 
-#### Autoinstall select image
+#### 3.6.1.2 Select Image to Auto-Install
 
     < Select Image >
 
@@ -89,7 +87,7 @@ Krescue => Advanced => Image autoinstall config
     │                       <  OK  >            <Cancel>                         │
     └────────────────────────────────────────────────────────────────────────────┘
 
-## how to write quickly many system +100
+## 3.7 How to Simultaneously Write Multiple Images
 
-1) create many autoinstall sd cards and write many boards at same times
-2) optimize minimize dump image
+1) Create many Auto-Install SD cards and write to many boards at same time
+2) Optimize / prepare the dumped-image for quicker eMMC installation
