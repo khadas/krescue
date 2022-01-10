@@ -19,6 +19,8 @@ Install custom software and configure your system as required.
 
     Krescue => Advanced => eMMC storage => Optimize minimize eMMC content
 
+rootfs will be mimimized and maximized when image was writed again by autoinstall
+
 NOTE: tested with Fenix Ubuntu system (eMMC version)
 
 ## 3.3 Dump Image from eMMC
@@ -86,6 +88,20 @@ Krescue => Advanced => Image autoinstall config
     ├────────────────────────────────────────────────────────────────────────────┤
     │                       <  OK  >            <Cancel>                         │
     └────────────────────────────────────────────────────────────────────────────┘
+
+#### 3.6.1.3
+
+    < Manual Edit >
+
+    ┌──────────────────────Auto install manual config────────────────────────┐
+    │ Image filename:                                                        │
+    │ ┌────────────────────────────────────────────────────────────────────┐ │
+    │ │VIM3.1641795435.6562484224-bytes.emmc.img.zst --resize              │ │
+    ├─└────────────────────────────────────────────────────────────────────┘─┤
+    │                     <  OK  >           <Cancel>                        │
+    └─────────────────────────────[F1 - help]────────────────────────────────┘
+
+NOTE: --resize is resize to max size parameter after image was writed
 
 ## 3.7 Optimization
 
