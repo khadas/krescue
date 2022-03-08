@@ -1,4 +1,4 @@
-# Factory testing
+# Factory testing suite
 
 ## Testing environment
 
@@ -115,18 +115,18 @@ Preferred connection
   QR-scaner    USB3-Flash (config)
           |    |
           |    |             +- VIM4 ---+
-        +-v----v-----+       |    USB2.0| < USB2/USB1 device
-        |            |       |          | < SD (boot) card
-        |            |       |          | < Ethernet 1G --------->| 1G ethernet HUB |
-=POWER=>| USB3.0_HUB |-------> USB3.0   | < HDMI display > speaker
+        +-v----v-----+       |    USB2.0| <-- USB2/USB1 device
+        |            |       |          | <-- SD (boot) card
+        |            |       |          | <-- Ethernet 1Gbit --------->| 1Gbit ethernet HUB |
+=POWER=>| USB3.0_HUB |-------> USB3.0   | <-- HDMI display > speaker / headphones
         |            |       |          |
         +---^--------+       +-USB_OTG--+
-            |                     ^
+            |                     |
             |__short_good__cable__|
                 ( 10-15 cm )
 ```
 
-## USB OTG special prepared cable
+## USB OTG special prepared cable (optional)
 
 ```
 USB    <  V  >------------+-> type-C -> Khadas Power adapter
@@ -134,9 +134,11 @@ otg    <  D+ >------------|-------==> D+ GPIO header usb pins
 port   <  D- >------------|-------==> D-
 device <  G  >------------'
 ```
-## configuration file options full list
+
+## Configuration file options full list
 
 NOTE: option without `#` works by default
+SYNTAX: # commented is not active
 
 ```
 TEST_WIFI_SSID=Khadas
