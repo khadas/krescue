@@ -49,6 +49,7 @@ Notes
 - Need press KEY_FN and KEY_POWER for done testing and write EFUSE and SPI
 - EFUSE or SPI-Flash or EMMC write only if all test is pass (no FAILs)
 - EMMC clean will be cleaned after all test pass
+- MCU reseted to default config after all test pass
 - SPI-FLash write image from USB-Flash disk `/flash/BOARD.*.spi.*.gz` after all test pass
 - Any FAILs display on HDMI monirors with RED color
 - Restart test when is was done by KEY_FN (just refresh is fast)
