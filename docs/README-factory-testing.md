@@ -41,6 +41,7 @@ TEST_LOG_SAVE=Y
 Notes
 
 - This test profile full factory board testing
+- system boot from SD card
 - Need pass all test (no FAILs)
 - Fan start on begin
 - QR scan for MAC address only and write to EFUSE memory after
@@ -74,6 +75,7 @@ TEST_QR_WAIT_FORCE=Y
 Notes
 
 - This test profile just write serial number and display minimal board information
+- system boot from SPI-Flash (no need SD card)
 - Wait QR scan for serial code
 - Need press KEY_FN for efuse write ( if TEST_KEYS_SKIP=Y configuration option not defined)
 - Remove USB-Flash for exit from testing process
@@ -88,6 +90,9 @@ TEST_STRESS_DURATION=60
 Notes
 
 - This stress test profile (hi-load, 100% system load)
+- system boot from SPI-Flash (no need SD card)
+- device must be powered by Khadas power adaptor
+- no need HDMI
 - Fan on maximal speed
 - CPU freq is maximal
 - Configuration option TEST_STRESS_DURATION test duration in seconds
