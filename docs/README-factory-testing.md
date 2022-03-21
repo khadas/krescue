@@ -22,20 +22,10 @@
 
 `khadas_test.txt` is plain text file with shell syntax
 
-## minimal content example
-
-```
-factory_test=Y
-```
-
 ## VIM4 factory-test prefered configuration
 
 ```
 factory_test=Y
-TEST_EMMC_CLEAN=Y
-TEST_FLASH_SPI=Y
-TEST_QR_SKIP_SERIAL=Y
-TEST_LOG_SAVE=Y
 ```
 
 Notes
@@ -49,7 +39,7 @@ Notes
 - dMIC can be listen by HDMI
 - Need press KEY_FN and KEY_POWER for done testing and write EFUSE and SPI
 - EFUSE or SPI-Flash or EMMC write only if all test is pass (no FAILs)
-- EMMC clean will be cleaned after all test pass
+- eMMC will be cleaned after all test pass
 - MCU reseted to default config after all test pass
 - SPI-FLash write image from USB-Flash disk `/flash/BOARD.*.spi.*.gz` after all test pass
 - Any FAILs display on HDMI monirors with RED color
@@ -57,19 +47,51 @@ Notes
 - Restart test when is was done by KEY_POWER (full testing restart)
 - Bluetooth or Wifi scan or other fails can be fixed just by test restart or board reset
 - Remove USB-Flash for exit from testing process
-- Test PROGRESS indication LED is slow blink both white and red
-- Test PASS indication LED is solid white only
+- Test PROGRESS indication LED is blink both white and red
+- Test PASS indication LED is slow white blink ( 1sec on x 1sec off ) + red off
 - Test FAIL indication LED is fast blink white + solid red
 - Full Testing Logs stored to USB-Flash disk
+
+
+## VIM4 write SPI-Flash configuration
+
+```
+flash_write=Y
+```
+
+Notes
+
+- Just write/update SPI-Flash
+- eMMC will be cleaned after all test pass
+- Headless usage is possible
+- Key press skipped
+- MCU reseted to default config after all test pass
+- Writing time about 5min-10min
+- LED indication is same
+
+## VIM4 write SPI-Flash prepare special SD card
+
+Notes
+
+- Used only SD card
+- same as `flash_write=Y` configuration
+- Boot from SD and start SPI-Flash writting process without USB-flash disk
+- SD card can be removed when process was started check by LED indication
+
+Howto prepare SD image from SDK
+
+```
+scripts/build VIM4 -c
+BOARD=VIM4 OVERLAY_SPI=flash_write scripts/build.overlays
+image2sd.sh kresq-build/krescue-images/VIM4.krescue.sd.overlay.img.gz -a
+
+```
 
 ## VIM4 write efuse serial number configuration
 
 ```
-efuse_test=Y
-TEST_QR_SKIP_MAC=Y
-TEST_QR_WAIT_FORCE=Y
+serial_write=Y
 #TEST_KEYS_SKIP=Y
-
 ```
 
 Notes
