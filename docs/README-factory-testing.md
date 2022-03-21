@@ -83,7 +83,7 @@ Howto prepare SD image from SDK
 ```
 scripts/build VIM4 -c
 BOARD=VIM4 OVERLAY_SPI=flash_write scripts/build.overlays
-image2sd.sh kresq-build/krescue-images/VIM4.krescue.sd.overlay.img.gz -a
+image2sd.sh kresq-build/krescue-images/VIM4.krescue.sd.*.overlay.*.img.gz -a
 
 ```
 
@@ -105,8 +105,7 @@ Notes
 ## VIM4 stress test configuration
 
 ```
-stress_test=Y
-TEST_STRESS_DURATION=60
+stress_test=4h
 ```
 
 Notes
@@ -117,12 +116,23 @@ Notes
 - no need HDMI
 - Fan on maximal speed
 - CPU freq is maximal
-- Configuration option TEST_STRESS_DURATION test duration in seconds
-- if TEST_STRESS_DURATION undefined is endless test duration
+- Test duration is 4H
 - Progress indication LED blink white + red leds
 - Test done indication LED solid white only
 - USB-Flash disk can be removed after start and test will continue
 - Restart testing by USB-Flash disk replug or KEY_FN
+
+## Custom stress test
+
+```
+stress_test=Y
+TEST_STRESS_DURATION=60 # sec
+```
+
+Notes
+- if TEST_STRESS_DURATION undefined is endless test duration
+- Configuration option TEST_STRESS_DURATION test duration in seconds
+
 
 ## HDMI display notes
 
@@ -169,35 +179,59 @@ NOTE: option without `#` works by default
 SYNTAX: # commented is not active
 
 ```
-TEST_WIFI_SSID=Khadas
-TEST_WIFI_LEVEL=-55
-TEST_WIFI_WAIT=5
-TEST_QR_WAIT=30
-#TEST_QR_WAIT_FORCE=Y
-TEST_BT_SCAN_NAME=*
-#TEST_BT_SCAN_NAME=Khadas
-TEST_BT_WAIT=20
-TEST_DMIC_DURATION=30
-TEST_DMIC_PLAY_DELAY=100
+# khadas_test.txt khadas test file config
 
+factory_test=Y
+#serial_write=Y
+#flash_write=Y
+#stress_test=Y
+#stress_test=4h
+#reboot_test=Y
+
+#TEST_STRESS_DURATION=60
+#TEST_LOG_SAVE=1 # enable logs save to usb flash
+#TEST_WIFI_SSID=Khadas
+#TEST_WIFI_LEVEL=-55
+#TEST_WIFI_WAIT=5
+#TEST_QR_WAIT=30
+#TEST_QR_WAIT_FORCE=Y
+#TEST_QR_SKIP=Y
+#TEST_QR_SKIP_MAC=Y
+#TEST_QR_SKIP_SERIAL=Y
+#TEST_BT_SCAN_NAME=*
+#TEST_BT_SCAN_NAME=Khadas
+#TEST_BT_WAIT=10
+#TEST_DMIC_DURATION=30
+#TEST_DMIC_PLAY_DELAY=100
 #TEST_EMMC_CLEAN=Y
-#TEST_FLASH_SPI=Y ## spi-flash image scan auto mode USB/flash/BOARD.*.spi.*.gz
-#TEST_FLASH_SPI=blank ## spi-flash blank
-#TEST_LOG_SAVE=Y # enable logs save to usb flash
-#TEST_WIFI_SKIP=Y
-#TEST_BT_SKIP=Y
-#TEST_DMIC_SKIP=Y
-#TEST_ETH_SKIP=Y
-#TEST_SD_SKIP=Y
 #TEST_EFUSE_WRITE_SKIP=Y
 #TEST_BT_SKIP=Y
-#TEST_KEYS_SKIP=Y
 #TEST_USB_SKIP=Y
 #TEST_USB2_SKIP=Y
 #TEST_USB3_SKIP=Y
 #TEST_USB_OTG_SKIP=Y
-#TEST_QR_SKIP=Y
-#TEST_QR_SKIP_MAC=Y
-#TEST_QR_SKIP_SERIAL=Y
+#TEST_WIFI_SKIP=Y
+#TEST_KEYS_SKIP=Y
+#TEST_HDMI_SKIP=Y
 
+#TEST_FLASH_SPI=Y
+## scan auto mode USB/flash/BOARD.*.spi.*.gz
+
+#TEST_FAIL_STOP=Y
+#TEST_PASS_REBOOT=Y
+#TEST_LOG_SAVE_ONLY_FAIL=Y
+
+#TEST_HELPER_DEV=Y
+#TEST_HELPER_USB_OTG_NET=Y
+#TEST_HELPER_TTYD=Y
+#TEST_HELPER_FBSERVER=Y
+#TEST_HELPER_USERVER=Y
+#TEST_DELAY_START=2
+#TEST_DUMMY=Y
+
+#TEST_QR_CODE_NOOP=Y
+
+#TEST_SERIAL_HIDE=Y
+#TEST_MAC_HIDE=Y
+#TEST_INFO_ETH_HIDE=Y
 ```
