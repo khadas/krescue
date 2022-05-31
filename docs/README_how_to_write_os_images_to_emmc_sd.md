@@ -31,7 +31,7 @@ NOTE: `zstd` need to be installed
 
 ### write .gz image to sd via ethernet connection
 
-    curl krescue.lan/shell/write | sh -s - -sd VIM3L.krescue.sd.img.gz
+    curl krescue.lan/shell/write | sh -s - VIM3L.krescue.sd.img.gz -sd
 
 same as via usb device
 
