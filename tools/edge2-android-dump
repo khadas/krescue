@@ -1,0 +1,66 @@
+#!/bin/sh
+
+## hyphop ##
+
+# dump android image from eMMC by oowow api
+
+export LANG=c
+
+host=${host-172.22.1.1} # default usb ip
+
+echo "Dump android image from $host"
+
+date_=$(date +%s)
+img=${img-edge2-android-$date_}.raw.img
+desc="${desc-edge2 android 12 $date_}"
+
+echo IMG: $img
+echo DESC: $desc
+
+ping -t2 -c1 $host || exit 1
+
+echo Read userdata offset
+
+for OFF in $(ssh root@$host sfdisk --dump /dev/mmcblk0 | grep userdata | grep -m1 -o \ [[:digit:]]*); do
+    break
+done
+
+[ "$OFF" ] || exit 2
+
+BYTES=$((OFF*512))
+
+echo Minimize GPT partition to $OFF+2048 blocks
+
+ssh root@$host <<EOF
+sfdisk --dump /dev/mmcblk0 | tee /tmp/parts
+(
+grep -v userdata /tmp/parts | sed s/last-lba:\\\s*\\\S*/last-lba:$((OFF+2048))/
+grep userdata /tmp/parts | sed s/size=\\\s*\\\S*/size=2048,/
+) | tee /tmp/parts.new | sfdisk /dev/mmcblk0
+EOF
+
+echo Dump image $BYTES bytes
+
+curl -L $host/api/disk/rdz/mmc.zst:$BYTES | zstd -dc > $img
+dd if=/dev/zero bs=1M count=100 >> $img
+
+echo Compress $img.xz
+
+sh  ./xze "$img" \
+    --meta \
+    label=Android \
+    builder=Khadas \
+    date="$(LANG=c TZ= date)" \
+    match=BOARD=Edge2 \
+    duration=30 \
+    desc="$desc"
+
+echo Image ready $img.xz
+
+<<EOF
+
+## help
+
+USAGE example
+
+    img=edge2-android-12-v220922 desc="edge2 android 12 v220922" sh ./edge2-android-dump
