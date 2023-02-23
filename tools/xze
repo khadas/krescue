@@ -36,7 +36,7 @@ META USAGE
 	--meta \
 	label=FreeBSD \
 	builder=Serega \
-	date="$(TZ= date)" \
+	date="$(LANG=C TZ= date)" \
 	match=BOARD=Edge \
 	link=http://dev.kubsu.ru/images/ \
 	duration=60 \
