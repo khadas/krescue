@@ -27,6 +27,7 @@ case $IN in
     board=$(lowcase ${board%%.*})
     LINK=https://libreelec.tv/downloads/
     POST="-arm"
+    DURATION=20
     ;;
 
     Lakka*)
@@ -60,7 +61,7 @@ echo "> $OUT"
 export PATH=$(pwd):~/bin:$PATH
 
 CMD(){
-    echo "# $@"
+    echo "# $@" >&2
     "$@"
 }
 
